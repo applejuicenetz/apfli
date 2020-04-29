@@ -1,0 +1,15 @@
+#!/bin/bash
+
+clear
+cd ../
+tag=$(date +%d)
+mon=$(date +%m)
+jah=$(date +%Y)
+std=$(date +%k)
+min=$(date +%M)
+dat_=$tag'_'$mon'_'$jah'-'$std'_'$min
+arch_=apfli_05_08_2004-00-47_.sh
+echo $arch_
+shar -z include/*.h src/*.cpp src/plugins/*.h src/plugins/*.cpp > $arch_
+cp apfli_*.sh archive/
+rm apfli_*.sh

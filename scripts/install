@@ -1,0 +1,56 @@
+#!/bin/bash
+backtitle="ApfLi Installtions Script"
+
+
+text_start='Dieses Script wird ApfLi installieren. \n
+\n
+Bei Installationsproblemen ist die FAQ auf der ApfLi Website
+zu Empfehlen. Sollte das Problem dort nicht beschrieben sein
+kann auch im Forum auf www.applejuicenet.de nachgefragt werden.\n
+\n
+Authoren: Dominic Scharfe, Felix Müller\n
+Website : http://apfli.sourceforge.net\n
+';
+
+text_ende='ApfLi wurde erfolgreich installiert. Insofern das Installationsverzeichnis im
+Pfad steht (was wenn man den defaultwerde gelassen hat der Fall ist), kann ApfLi nun durch eingeben von "apfli" in der konsole gestartet werden'
+
+text_dir="In welches Verzeichnis soll die ApfLi Binary installiert werden? (ohne "/" am Ende!)\n
+Hinweis: fuer die Installation ausserhalb von $HOME werden Root Rechte benoetigt"
+
+text_pwd="Bitte Passwort eingeben"
+
+dialog --backtitle "$backtitle" --title "Installationshinweise" --msgbox "$text_start" 20 50
+
+dialog --backtitle "$backtitle" --title "Installation" --inputbox "$text_dir" 10 50 "/usr/local/bin" 2>in.tmp
+
+targ=$(cat in.tmp)
+rm in.tmp
+clear
+
+echo "kopiere Dateien"
+
+if [ $targ == "" ]
+then
+exit 0
+fi
+
+chmod +x apfli
+
+if [ $targ == "/usr/local/bin" ]
+then
+su -c "cp apfli $targ/apfli"
+cat error
+else
+mkdir -p $targ
+cp apfli $targ/apfli 2>install.err
+fi
+
+mkdir -p ~/.apfli 2>>install.err
+cp ABOUT ~/.apfli 2>>install.err
+cp HELP ~/.apfli 2>>install.err
+cp LIZENS ~/.apfli 2>>install.err
+
+
+
+dialog --backtitle "$backtitle" --title "Installationshinweise" --msgbox "$text_ende" 20 50

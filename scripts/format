@@ -1,0 +1,4 @@
+indent ../include/*.h -kr -i4
+indent ../src/*.cpp -kr -i4
+rm "../src/plugins/Plugin_*.o"
+indent ../src/plugins/Plugin_*.* -kr -i4

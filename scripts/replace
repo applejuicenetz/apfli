@@ -1,0 +1,46 @@
+#!/bin/bash
+# replace
+#
+# ersetzt in allen cpp und h, sowie in makefiles den string patt durch targ
+# dann benennt es die jeweiligen cpp und h dateien um
+#
+# dient dazu, klassen konfortabel umzubenennen (funktioniert aber auch bei normalen
+# Variablennamen)
+#
+# z.b:
+# patt="cCoreData"
+# targ="core_data"
+# wuerde die Klasse cCoreData in core_data umbenennen und das Makefile veraendern.
+#
+# VORSICHT!: daten lieber vorher sichern!
+#
+# koennte ausserdem Probeleme geben, falls in Makefile.in und Makefile.am Namen veraendert
+# werden muessen.
+#
+# (C) D.Scharfe
+#
+
+patt="sleep"
+targ="napms"
+
+
+
+src="../src"
+inc="../include"
+plg=$src"/plugins"
+
+find $src/ -type f -name "*.cpp" -exec perl -i -p -e 's/'$patt'/'$targ'/g;' {} \;
+find $src/ -type f -name "Makefile" -exec perl -i -p -e 's/'$patt'/'$targ'/g;' {} \;
+find $inc/ -type f -name "*.h" -exec perl -i -p -e 's/'$patt'/'$targ'/g;' {} \;
+find $plg/ -type f -name "*.cpp" -exec perl -i -p -e 's/'$patt'/'$targ'/g;' {} \;
+find $plg/ -type f -name "*.h" -exec perl -i -p -e 's/'$patt'/'$targ'/g;' {} \;
+
+if [ -e ../src/$patt.cpp ]
+then
+mv "$src/$patt.cpp" "$src/$targ.cpp"
+fi
+
+if [ -e ../include/$patt.h ]
+then
+mv "$inc/$patt.h" "$inc/$targ.h"
+fi
