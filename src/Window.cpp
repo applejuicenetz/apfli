@@ -287,8 +287,10 @@ void Window::__scrl(int n)
 
 void Window::__resize(int lines, int colums)
 {
+	curs_set(1);
     set_is_resized(true);
     wresize(handle, lines, colums);
+	curs_set(0);
 }
 
 

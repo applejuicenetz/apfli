@@ -1,6 +1,5 @@
 CTAGS= ctags -x >tags
-CFLAGS= -s -Wall -pipe -Os
-# `xml2-config --cflags`
+CFLAGS= -s -Wall -pipe `xml2-config --cflags`
 LDFLAGS= 
 LIBS=-s -lpanel -lmenu -lncurses -lform  -lpthread `xml2-config --libs`
 CC=g++

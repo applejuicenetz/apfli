@@ -101,10 +101,21 @@
 #define L_DL_PAUSE_ALL_EXCEPT	"Pause all except of this"
 #define L_DL_PWDL				"Change Powerdownload"
 #define L_DL_DETAILS			"Details"
+#define L_DL_MENU_ABORT			"Close Menu"
 
 //Uploadmenu
 #define L_UL_ACTIVE				"active uploads:"
 #define L_UL_STAT				"%i from %i uploads are aktiv"
+
+//Core Settings
+#define L_CS_NICK				"Nickname"
+#define L_CS_PORT				"Port"
+#define L_CS_XML_PORT			"XML Port"
+#define L_CS_MAX_UP				"Max. Upload"
+#define L_CS_MAX_DOWN			"Max. Download"
+#define L_CS_MAX_SRC_FILE		"Max. sources per file"
+#define L_CS_MAX_NEW_CON		"Max.new connectios"
+
 #endif
 
 
@@ -197,7 +208,7 @@
 #define L_WANT_CORE_EXIT		"Willst du Core+GUI wirklich beenden?"
 
 //Downloadmenue
-#define L_DL_ABORT				"Downlaod Abbrechen"
+#define L_DL_ABORT				"Download Abbrechen"
 #define L_DL_ABORT_CONFIRM		"willst du den Download wirklich Abbrechen?"
 #define L_DL_PAUSE				"pausieren/fortsetzen"
 #define L_DL_PAUSE_ALL			"Alle pausieren"
@@ -205,11 +216,18 @@
 #define L_DL_PAUSE_ALL_EXCEPT	"Alle pausieren ausser diesen"
 #define L_DL_PWDL				"Powerdownload aendern"
 #define L_DL_DETAILS			"Details"
+#define L_DL_MENU_ABORT			"Menue schliessen"
 
 //Uploadmenu
 #define L_UL_ACTIVE				"Aktive Uploads:"
 #define L_UL_STAT				"%i von %i Uploads aktiv"
 
-
-
+//Core Settings
+#define L_CS_NICK				"Nickname"
+#define L_CS_PORT				"Port"
+#define L_CS_XML_PORT			"XML Port"
+#define L_CS_MAX_UP				"Max. Upload"
+#define L_CS_MAX_DOWN			"Max. Download"
+#define L_CS_MAX_SRC_FILE		"Max. Quellenanzahl pro Datei"
+#define L_CS_MAX_NEW_CON		"Max. Anzahl neuer Verbindungen"
 #endif

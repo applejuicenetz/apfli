@@ -86,30 +86,30 @@ main (int argc, char *argv[])
 	if (settings_init () == false)
 		settings_ask ();
 
-
-
-	// MIN_COLS und MIN_ROWS siehe Apfli.cpp
-	if (Apfli::term_error () == true)
-	{
-		cout << "Das Terminal ist zu klein" << endl;
-		cout << "Es sollte mindestens " << MIN_COLS <<
-			" Spalten und " << MIN_ROWS << " Zeilen" << endl;
-		cout << "gross sein" << endl;
-	}
-	else
+	if (Apfli::process_links (argc, argv) == false)
 	{
 
-		if (Apfli::process_links (argc, argv) == false)
+		// MIN_COLS und MIN_ROWS siehe Apfli.cpp
+		if (Apfli::term_error () == true)
 		{
+			cout << "Das Terminal ist zu klein" << endl;
+			cout << "Es sollte mindestens " << MIN_COLS <<
+				" Spalten und " << MIN_ROWS << " Zeilen" <<
+				endl;
+			cout << "gross sein" << endl;
+		}
+		else
+		{
+
 			// wenn keine links uebergeben wurden
 			apfli = new Apfli;
 			apfli->main_loop ();
 
 			delete apfli;
 			settings_save ();
+
 		}
 	}
-
 	cerr << "ApfLi wurde sauber beendet" << endl;
 
 	cerr.rdbuf (sbuf);

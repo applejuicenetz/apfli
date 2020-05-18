@@ -25,7 +25,21 @@
 #include "../include/sockfunc.h"
 
 #define DEBUG_MODE
-static int last_item=0;
+
+#define BUF_LEN_ 20
+#define UMRECHNEN1()\
+		first = atoi(buffer.c_str());\
+		first = first / 1024.0;\
+		buff;\
+		snprintf (buff, BUF_LEN_, "%.1f", first);
+
+#define UMRECHNEN2(buffer)\
+		first = atoi(buffer.c_str());\
+		first = first * 1024.0;\
+		buff;\
+		snprintf (buff, BUF_LEN_, "%.0f", first);
+
+static int last_item = 0;
 
 string
 getfile ()
@@ -336,7 +350,8 @@ int
 parse_cmdline (int argc, char **argv, vector < settype_t > &settings)
 {
 	settype_t set;
-	const char *cmd_types[] = { CMD_TYPE_PW, CMD_TYPE_LINK, CMD_TYPE_VERSION };
+	const char *cmd_types[] =
+		{ CMD_TYPE_PW, CMD_TYPE_LINK, CMD_TYPE_VERSION };
 
 	cerr << "Parse Command Line argc:" << argc << endl;
 	int ind = -1;
@@ -352,7 +367,7 @@ parse_cmdline (int argc, char **argv, vector < settype_t > &settings)
 
 			for (int j = 0; j < TYPES; j++)
 			{
-//			    cerr << argv[i] <<"|"<<cmd_types[i]<<endl;
+//                          cerr << argv[i] <<"|"<<cmd_types[i]<<endl;
 				if (strcmp (argv[i], cmd_types[j]) == 0)
 				{
 					settings[ind].type = j;
@@ -414,10 +429,10 @@ show_topics (void *plugin)
 		cur1 = cur1->next;
 	}
 	xmlFreeDoc (doc1);
-	/* Core Settings bearbeiten funktionier noch nicht
+
 	p_plug->v_act_topic.push_back (L_SETTINGS_CORE);
 	content->add_item (L_SETTINGS_CORE);
-	*/
+
 	content->print ();
 }
 
@@ -609,11 +624,13 @@ edit_core_settings ()
 {
 	xmlDocPtr doc1;
 	xmlNodePtr cur1;
+	float first;
+	char buff[BUF_LEN_];
 	string buffer;
 
 	string core_settings = aj_do_xml ("GET", "/xml/settings.xml?");
 	core_settings = core_settings.erase (0, core_settings.find ("<", 0));
-	
+
 	xml_init (doc1, cur1, core_settings, "settings");
 
 	Plugin::set_handle_keyboard (true);
@@ -621,30 +638,32 @@ edit_core_settings ()
 	Form edit_box (L_SETTINGS_CORE);
 
 	buffer = xml_get_value (doc1, cur1, "", "nick");
-	edit_box.add ("Nick", buffer);
-	
+	edit_box.add (L_CS_NICK, buffer);
+
 	buffer = xml_get_value (doc1, cur1, "", "port");
-	edit_box.add ("Port", buffer);
-	
+	edit_box.add (L_CS_PORT, buffer);
+
 	buffer = xml_get_value (doc1, cur1, "", "xmlport");
-	edit_box.add ("xml Port", buffer);
-	edit_box.set_field_int(2,0,0);
-	
+	edit_box.add (L_CS_XML_PORT, buffer);
+	edit_box.set_field_int (2, 0, 0);
+
 	buffer = xml_get_value (doc1, cur1, "", "maxupload");
-	edit_box.add ("Maximaler Upload", buffer);
-	edit_box.set_field_int(3,0,99999);
-	
+	UMRECHNEN1 ();
+	edit_box.add (L_CS_MAX_UP, buff);
+	edit_box.set_field_num (3, 1, 3, 99999);
+
 	buffer = xml_get_value (doc1, cur1, "", "maxdownload");
-	edit_box.add ("Maximaler Download", buffer);
-	edit_box.set_field_int(4,0,99999);
-	
+	UMRECHNEN1 ();
+	edit_box.add (L_CS_MAX_DOWN, buff);
+	edit_box.set_field_num (4, 1, 0, 99999);
+
 	buffer = xml_get_value (doc1, cur1, "", "maxsourcesperfile");
-	edit_box.add ("Maximale Quellenanzahl", buffer);
-	edit_box.set_field_int(5,0,99999);
-	
+	edit_box.add (L_CS_MAX_SRC_FILE, buffer);
+	edit_box.set_field_int (5, 0, 99999);
+
 	buffer = xml_get_value (doc1, cur1, "", "maxnewconnectionsperturn");
-	edit_box.add ("Max Anzahl neuer Verbindungen", buffer);
-	edit_box.set_field_int(6,1,200);
+	edit_box.add (L_CS_MAX_NEW_CON, buffer);
+	edit_box.set_field_int (6, 1, 200);
 /*	
 	buffer = xml_get_value (doc1, cur1, "settings", "speedperslot");
 	edit_box.add ("Geschwindigkeit pro Slot", buffer);
@@ -665,16 +684,21 @@ edit_core_settings ()
 	if (new_settings != NULL)
 	{			// wenn der OK knopf gedruekt wurde
 		buffer = "/function/setsettings?";
-		
+
 		buffer += "&Nickname=" + new_settings[0];
 		buffer += "&Port=" + new_settings[1];
 		buffer += "&XMLPort=" + new_settings[2];
-		buffer += "&MaxUpload=" + new_settings[2];
-		buffer += "&MaxDownload=" + new_settings[2];
-		buffer += "&MaxSourcesPerFile=" + new_settings[2];
-		buffer += "&MaxNewConnectionsPerTurn=" + new_settings[2];
-		
-		aj_do_xml("GET", buffer);
+		UMRECHNEN2 (new_settings[3]);
+		buffer += "&MaxUpload=";
+		buffer += buff;
+		UMRECHNEN2 (new_settings[4]);
+		buffer += "&MaxDownload=";
+		buffer += buff;
+
+		buffer += "&MaxSourcesPerFile=" + new_settings[5];
+		buffer += "&MaxNewConnectionsPerTurn=" + new_settings[6];
+
+		aj_do_xml ("GET", buffer);
 		delete[]new_settings;
 	}			// beim cancel knopf:
 

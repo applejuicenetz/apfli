@@ -1,0 +1,107 @@
+Es gibt eine FAQ unter http://apfli.sourceforge.net.
+
+Desweiteren koennen Fragen die nicht in der FAQ stehen im
+Forum unter www.applejuicenet.de gestellt werden
+
+
+Tipps:
+
+Prozessorlast senken:
+---------------------
+
+-> Settings Menue oeffnen, Edit_Settings ausfuehren
+-> Plugins ausfuehren
+--->hier kann nun fuer jedes Plugin die waittime eingestellt werden,
+    welche angibt aller wieviel ms die Daten vom Core geholt werden
+    sollen. 
+    Der Standardwert ist 1000, was bedeute das die Daten jede Sekunde
+    geholt werden.
+    Durch erhoehen dieses Wertes kann die Prozessorlast (extrem gesenkt)
+    werden. Stellt man z.B. 10000 sinkt die Prozessorlast.
+    Zu beachten ist, das die Daten jeweils nur geholt werden wann das jeweilige
+    Plugin gerade geoffnet ist. 
+    Das einzigste Plugin das staendig laeuft ist die Statusbar. Es empfiehlt
+    sich also bei Performance Problemen die zuerst die waittime der Statusbar
+    zu erhoehen
+
+Browserntegration:
+-------------------
+Wenn die GUI mit dem Parameter -pl gestartet wird kann man
+beliebig viele ajfsp Links anfügen (solange bis ein anderer
+Parameter, beginnend mit - angefügt wird).
+Dies bedeutet somit auch das eine Browserunterstüzung ins 
+System implementiert werden kann. Dazu gibt es mehrere Wege:
+Zum einen direkt im Browser. 
+
+-Firefox/Mozilla:
+-----------------
+Die Extensions Mozex kann Universal Protokolle handeln.
+dazu gibt man ajfsp als Protokoll Schema ein.
+Als Command muss man dann den Pfad zu apfli eintragen, zusammen
+mit dem Parameter -pl
+z.B.:/usr/local/bin/apfli -pl
+
+Ein weiterer Weg ist, in der Navigationsleiste about:config 
+einzugeben. In der erscheinenden Seite muss man die rechte
+Maustaste drücken ->New->Boolean. Als Preference Name gibt man
+'network.protocol-handler.external.ajfsp' ein. Als Value 'true'
+Danach wieder rechte Maustaste ->New->String. Als Preference Name 
+gibt man 'network.protocol-handler.app.ajfsp' ein. Als Value trägt
+man den Pfad zu ApfLi ein.
+z.B.:/usr/local/bin/apfli -pl
+
+-Konqueror:
+-----------
+Man erstellt in /kde3/share/services/
+als root eine datei 'ajfsp.protocol'. Diese Datei muss folgenden
+Aufbau haben:
+[Protocol]
+exec=/usr/local/bin/apfli -pl "%u"
+protocol=ajfsp
+input=none
+output=none
+helper=true
+listing=false
+reading=false
+writing=false
+makedir=false
+deleting=false
+
+-Opera:
+-------
+Hier muss man die Datei '/etc/opera6rc' als root bearbeiten
+oder ~/.opera/opera6.ini als normaler Nutzer:
+
+[User Prefs]
+TrustedExternalURLProtocols=ajfsp
+
+[Trusted Applications]
+ajfsp=/usr/local/bin/apfli -pl ajfsp://%u
+
+Es kann sein, dass Opera 6 nicht den gesamten benötigten String
+überträgt, sondern es lässt das Protokoll weg. Um das zu umgehen 
+kann man ein kleines script schreiben:
+
+#!/bin/sh
+/usr/local/bin/apfli -pl "ajfsp://$1"
+
+und dann ruft man statt apfli dieses Script auf:
+ajfsp=/path/to/script.sh ajfsp://%u 
+
+
+Eine weitere Möglichkeit besteht darin, die Einstellung global
+vorzunehmen.
+Unter Gnome kann man mit dem Programm gnome-file-types-properties
+einen Dienst hinzufügen
+Dort trägt man eine Beschreibung, das Protokoll(ajfsp) und 
+den Pfad zur GUI mit Parameter:
+z.B. /usr/local/bin/apfli -pl %s
+
+Wie das unter KDE geht weiß ich leider nicht. Wer da Ahnung hat
+und/oder mal ein script schreiben will kann sich gerne melden.
+
+Abstuerze:
+----------
+Sollte ApfLi bei jedem Programmstart abstuerzen, dann ist wahrscheinlich die
+Settingsdatei zerstoert. Diese liegt unter ~/.apfli/settings. Wird sie geloescht
+werden beim naechsten Start die Settings neu abgefragt.

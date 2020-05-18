@@ -122,15 +122,15 @@ abort_dl (int argc, void **argv)
 	CAST_PLUG_DOWN (argv[1]);
 	CAST_ACT_ITEM (argv[0]);
 	
-	Form edit_box (L_DL_ABORT);
+	Form edit_box (L_DL_ABORT, false);
 	edit_box.add (L_DL_ABORT_CONFIRM, "yoa");
-	edit_box.set_field_opt (0,0,false);
+	edit_box.set_field_opt (0, O_VISIBLE,false);
 	Window::__curs_set(0);
 	edit_box.init ();
 	Plugin::set_handle_keyboard (true);
 	string *new_settings = NULL;
 	new_settings = edit_box.run ();
-	Window::__curs_set(1);
+	//Window::__curs_set(1);
 	if (new_settings != NULL)
 	{			// wenn der OK knopf gedruekt wurde     
 		plug_down->abort_dl(actual_item);
@@ -166,7 +166,8 @@ download_options_menu (int actual_item, void *plugin)
 	menu.add_entry (L_DL_RESUME_ALL, set_resume_all);
 	menu.add_entry (L_DL_PAUSE_ALL_EXCEPT, set_pause_all_except);
 	menu.add_entry (L_DL_ABORT, abort_dl);
-	menu.add_entry (L_DL_DETAILS, NULL);
+	menu.add_entry (L_DL_MENU_ABORT, NULL);
+	//menu.add_entry (L_DL_DETAILS, NULL);
 
 	menu.init (MENU_X, MENU_Y, /*MENU_WIDTH, MENU_HEIGHT, */ cp_msg_win,
 		   "");

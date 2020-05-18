@@ -19,74 +19,82 @@
  ***************************************************************************/
 #include "../include/aux_functions.h"
 
-void gui_print_dat(string & ret, long int first, long int last)
+void
+gui_print_dat (string & ret, long int first, long int last)
 {
-    float *most;
-    float b_first = first;
-    float b_last = last;
-    if (b_first < b_last)
-	most = &b_last;
-    else
-	most = &b_last;
-    ret = "Byte";
-    if (*most >= 1024) {
-	ret = "KB";
-	b_first = b_first / 1024.00;
-	b_last = b_last / 1024.00;
-	if (*most >= 1024) {
-	    ret = "MB";
-	    b_first = b_first / 1024.00;
-	    b_last = b_last / 1024.00;
-	    if (*most >= 1024) {
-		ret = "GB";
+	float *most;
+	float b_first = first;
+	float b_last = last;
+	if (b_first < b_last)
+		most = &b_last;
+	else
+		most = &b_last;
+	ret = "Byte";
+	if (*most >= 1024)
+	{
+		ret = "KB";
 		b_first = b_first / 1024.00;
 		b_last = b_last / 1024.00;
-	    }
+		if (*most >= 1024)
+		{
+			ret = "MB";
+			b_first = b_first / 1024.00;
+			b_last = b_last / 1024.00;
+			if (*most >= 1024)
+			{
+				ret = "GB";
+				b_first = b_first / 1024.00;
+				b_last = b_last / 1024.00;
+			}
+		}
 	}
-    }
 #define BUF_LEN	20
-    char buff[BUF_LEN];
-    sprintf(buff, "%.2f/%.2f %s", 
-	    b_first, b_last, 
-	    (char*)ret.c_str());
+	char buff[BUF_LEN];
+	sprintf (buff, "%.2f/%.2f %s",
+		 b_first, b_last, (char *) ret.c_str ());
 /*
 	while (strlen(buff)<BUF_LEN) {
 		strcat(buff, " ");
 	}
 */
-    ret = buff;
+	ret = buff;
 }
 
-void gui_print_dat(string & ret, float first, bool is_speed)
+void
+gui_print_dat (string & ret, float first, bool is_speed)
 {
-    ret = "Byte";
-    if (first >= 1024 || first <= -1024) {
-	ret = "KB";
-	first = first / 1024.00;
-	if (first >= 1024 || first <= -1024) {
-	    ret = "MB";
-	    first = first / 1024.00;
-	    if (first >= 1024 || first <= -1024) {
-		ret = "GB";
+	ret = "Byte";
+	if (first >= 1024 || first <= -1024)
+	{
+		ret = "KB";
 		first = first / 1024.00;
-	    }
+		if (first >= 1024 || first <= -1024)
+		{
+			ret = "MB";
+			first = first / 1024.00;
+			if (first >= 1024 || first <= -1024)
+			{
+				ret = "GB";
+				first = first / 1024.00;
+			}
+		}
 	}
-    }
 #define BUF_LEN_ 20
-    char buff[BUF_LEN_];
-    if (is_speed)
-	sprintf(buff, "%.2f %s/s", first, ret.c_str());
-    else
-	sprintf(buff, "%.2f %s", first, ret.c_str());
+	char buff[BUF_LEN_];
+	if (is_speed)
+		snprintf (buff, BUF_LEN_, "%.2f %s/s", first, ret.c_str ());
+	else
+		snprintf (buff, BUF_LEN_, "%.2f %s", first, ret.c_str ());
 
 
 
-    ret = buff;
+	ret = buff;
 }
 
 
-void gui_print_dat(string & ret, string & dat, bool is_speed)
+void
+gui_print_dat (string & ret, string & dat, bool is_speed)
 {
-    float first = atoi(dat.c_str());
-    gui_print_dat(ret, first, is_speed);
+	float first = atoi (dat.c_str ());
+	gui_print_dat (ret, first, is_speed);
 }

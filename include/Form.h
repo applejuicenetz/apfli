@@ -29,7 +29,8 @@ using namespace std;
 
 class Form {
   public:
-    Form(string caption /*, int fields */ );
+	Form(string caption);
+    Form(string caption, bool need_input);
     ~Form();
     void init();
     void deinit();
@@ -40,9 +41,10 @@ class Form {
     //      void run(string *settings);
     string *run();
     void set_field_opt(int count, int attr, bool on);
-    void set_field_pwdl(int count);
-    void set_field_ipv4(int count);
-  	void set_field_int(int count,int min ,int max);
+    void set_field_pwdl(unsigned int count);
+    void set_field_ipv4(unsigned int count);
+  	void set_field_int(unsigned int count,unsigned int min ,unsigned int max);
+  	void set_field_num (unsigned int count,unsigned int prec,unsigned int min,unsigned int max);
      vector < string > &get_idents();
   private:
      Window window;
@@ -50,7 +52,7 @@ class Form {
 
      vector < FIELD * >field_vect;
      vector < string > field_capt;
-
+	bool need_input;
      int ident_max_size;
     int act_field;
     FORM *form;

@@ -19,14 +19,24 @@
  ***************************************************************************/
 #include "../include/Form.h"
 
-
 Form::Form (string caption)
 {
-	ident_max_size=0;
+	ident_max_size = 0;
 	cerr << "Form::Form" << endl;
 	this->caption = caption;
 	act_field = 0;
 	cerr << "Form::end" << endl;
+	this->need_input = true;
+}
+
+Form::Form (string caption, bool need_input)
+{
+	ident_max_size = 0;
+	cerr << "Form::Form" << endl;
+	this->caption = caption;
+	act_field = 0;
+	cerr << "Form::end" << endl;
+	this->need_input = need_input;
 }
 
 Form::~Form ()
@@ -38,14 +48,21 @@ Form::~Form ()
 void
 Form::add (string bez, string def)
 {
-	if (bez.size() > (unsigned int)ident_max_size) ident_max_size=bez.size();
+	if (bez.size () > (unsigned int) ident_max_size)
+		ident_max_size = bez.size ();
 	FIELD *buf;
 	cerr << "Form::add: " << bez << endl;
-	buf = new_field (1, 30, act_field, 10, 0, 0);
+	if (!need_input)
+		buf = new_field (1, 1, act_field, 10, 20, 0);
+	else
+		buf = new_field (1, 30, act_field, 10, 20, 0);
 	field_capt.push_back (bez);
 	set_field_buffer (buf, 0, (char *) def.c_str ());
 	set_field_back (buf, A_UNDERLINE);	/* Print a line for the option */
 	field_opts_off (buf, O_AUTOSKIP);	/* Don't go to next field when this */
+	if (!need_input){
+		field_opts_off (buf, O_VISIBLE);
+	}
 	act_field++;
 	field_vect.push_back (buf);
 }
@@ -64,19 +81,25 @@ Form::set_field_opt (int count, int attr, bool on)
 }
 
 void
-Form::set_field_int (int count, int min, int max)
+Form::set_field_int (unsigned int count, unsigned int min, unsigned int max)
 {
 	set_field_type (field_vect[count], TYPE_INTEGER, 1, min, max);
 }
 
 void
-Form::set_field_pwdl (int count)
+Form::set_field_pwdl (unsigned int count)
 {
-	set_field_type (field_vect[count], TYPE_NUMERIC, 1, 0, 60);
+	set_field_num(count,1,0,50);
 }
 
 void
-Form::set_field_ipv4 (int count)
+Form::set_field_num (unsigned int count,unsigned int prec,unsigned int min,unsigned int max)
+{
+	set_field_type (field_vect[count], TYPE_NUMERIC, prec, min, max);
+}
+
+void
+Form::set_field_ipv4 (unsigned int count)
 {
 	set_field_type (field_vect[count], TYPE_IPV4);
 }
@@ -109,7 +132,8 @@ Form::init ()
 	for (unsigned int i = 0; i < field_vect.size (); i++)
 	{
 		field[i] = field_vect[i];
-		if (i<(unsigned int)fields) move_field(field[i], i, ident_max_size+1);
+		if (i < (unsigned int) fields)
+			move_field (field[i], i, ident_max_size + 1);
 	}
 
 
@@ -133,7 +157,7 @@ Form::init ()
 	for (int i = 0; i < fields; i++)
 	{
 		window.__addstr (2, i + 2, (char *) field_capt[i].c_str ());
-	
+
 	}
 
 

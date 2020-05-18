@@ -1,9 +1,15 @@
-# Changelog
-
 bekannte bugs:
 - blinkender Cursor beim resizen
 - manchmal kommt wenn man edit_settings macht das download fenster
-- einige casts in Menu.cpp nich ISO-c++  comform --> kompilieren mit g++ > 3.4.0 funktioniert nicht
+- einige casts in Menu.cpp nicht ISO-C++ conform --> kompilieren mit g++ > 3.4.0 funktioniert nicht
+
+17/08/2004 <Twix>
+- Verbesserung in Edit Core Settings
+
+17/08/2004 <dscharfe>
+- Os Flag im Makefile entfernt. Binary Groesse ist dadurch um einige kb gewachsen, aber es funktioniert und ein wenig Performancevorteil sollte es bringen
+- Scrolling bei Form
+- Ein Cursor Bug nach dem resizen wurde behoben
 
 16/08/2004 <dscharfe>
 -g++<=2.95 kompatibel gemacht
@@ -15,6 +21,12 @@ Content.cpp
 -Bug entfernt
 Plugin_Download.cpp
 -Download abbrechen implementiert
+Form.cpp:
+-Anzeige Bug entfern
+Apfli.cpp:
+-Bug entfernt der u.U. linkprocessing verhindert hat
+Plugin_Download.cpp:
+-Menue schliessen hinzugefuegt
 
 14/08/2004 <twix>
 Content.cpp:

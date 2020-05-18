@@ -43,7 +43,7 @@
 
 #define MIN_ROWS 5
 #define MIN_COLS 40
-#define APFLI_VERSION 	"0.2 | build 16/08/2004 | release 1"
+#define APFLI_VERSION 	"0.2 | build 17/08/2004 | release 3"
 #define APFLI_HELP 		"Parameter: -v : Versionsinfo"
 using namespace std;
 

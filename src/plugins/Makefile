@@ -7,8 +7,7 @@ OBJS=	Plugin_About.o\
 	Plugin_Upload.o\
 	Plugin_Status.o
 
-CFLAGS= -s -Os -pipe -Wall
-#LDFLAGS= -s `xml2-config --libs`
+CFLAGS= -s -pipe -Wall `xml2-config --cflags`
 CC=g++
 GET=co
 SRCS=*.cpp

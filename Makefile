@@ -1,5 +1,5 @@
 CTAGS= ctags -x >tags
-CFLAGS=-O2 -pipe -Wall -fomit-frame-pointer
+CFLAGS=-pipe -Wall -fomit-frame-pointer
 # `xml2-config --cflags`
 LDFLAGS= -s `xml2-config --libs` -lpthread
 LIBS=-lpanel -lmenu -lncurses 
@@ -9,7 +9,7 @@ SRCS=*.cpp
 SHAR=shar
 RELNAME=apfli_`date +%d_%m_%y-%H-%M`
 APFLIDIR=~/.apfli
-ARCHFILES=include/*.h src/*.cpp src/Makefile src/plugins/Makefile src/plugins/*.cpp src/plugins/*.h scripts/ Makefile Changelog Todo INSTALL
+ARCHFILES=include/*.h src/*.cpp src/Makefile src/plugins/Makefile src/plugins/*.cpp src/plugins/*.h scripts/ Makefile Changelog INSTALL HELP TODO
 all:
 	make apfli
 
@@ -48,6 +48,7 @@ rbin:
 	cp LIZENS release/bin/apfli
 	cp HELP release/bin/apfli
 	cp ABOUT release/bin/apfli
+	cp TODO release/bin/apfli
 	cd release/bin && \
 	tar -cvvf $(RELNAME)_bin.tar apfli  &&\
 	bzip2 -z $(RELNAME)_bin.tar &&\
